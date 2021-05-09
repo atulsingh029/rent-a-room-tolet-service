@@ -1,0 +1,42 @@
+<%- include ('../partials/header') %> 
+
+     <header class="jumbotron text-center my-2">
+         <div class="container">
+             <h2></span> Post Your Ads To Rent A Room || Find Rooms Of Your Choice!</h2>
+         </div>
+     </header>
+     
+    <div class="container">
+        <div class="row">
+            <div class="col-6 py-2 text-right">
+                <a class="btn btn-info" href="/rooms/new">Post New Ad</a> 
+            </div>
+            <div class="col-6 py-2">
+                <form action="/rooms" method="GET" class="form-inline" id="room-search">
+                    <div class="form-group">
+                      <input type="text" name="search" placeholder="Search Room" class="form-control">
+                    </div>
+                  </form>
+            </div>
+        </div>
+    </div>
+    
+    <div class="card-title">Recent Ads</div>
+     <div class="row text-center flex-wrap" id="room-grid">
+        <% rooms.forEach(function(room){ %>
+            <div class="col-md-3 col-sm-6">
+                <div class="thumbnail">
+                   <img src="<%= room.image %>">
+                   <div class="caption">
+                       <h4><%= room.name %></h4>
+                       <h5><%= room.cost %> Rs./day</h4>
+                   </div>
+                   <p>
+                       <a href="/rooms/<%= room._id %>" class="btn btn-primary"> More Info</a>
+                   </p>
+                </div>
+            </div>
+        <% }); %>
+    </div>
+
+<%- include ('../partials/footer') %>

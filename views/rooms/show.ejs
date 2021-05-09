@@ -1,0 +1,75 @@
+<%- include ('../partials/header') %>
+<div class="row">
+  <div class="col-md-3">
+    <div class="list-group">
+      <li class="list-group-item active" style="font-size: 20px;">Details</li>
+      <li class="list-group-item"><svg style="padding-bottom: 5px;" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
+        <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
+        <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
+      </svg> <span class="text-capitalize" style="line-height: 20px;font-size: 20px;"><%= room.author.username %></span></li>
+      <li class="list-group-item"><svg style="padding-bottom: 5px;" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-geo-alt" viewBox="0 0 16 16">
+        <path d="M12.166 8.94c-.524 1.062-1.234 2.12-1.96 3.07A31.493 31.493 0 0 1 8 14.58a31.481 31.481 0 0 1-2.206-2.57c-.726-.95-1.436-2.008-1.96-3.07C3.304 7.867 3 6.862 3 6a5 5 0 0 1 10 0c0 .862-.305 1.867-.834 2.94zM8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10z"/>
+        <path d="M8 8a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm0 1a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
+      </svg>  <span class="text-capitalize" style="line-height: 20px;font-size: 20px;"><%= room.location %></span></li>
+      
+      <li class="list-group-item"><%= moment(room.createdAt).fromNow() %></li>
+    </div>
+    <div id="map"></div>
+  </div>
+  <div class="col-md-9">
+    <div class="thumbnail">
+      <img class="img-responsive p-1" src="<%= room.image %>" style="max-height: 800px; max-width: 845px;">
+      <div class="caption-full">
+        <style>
+          #price:hover {
+            background-color: transparent;
+            color: #0099CC;
+          }
+        </style>
+        <button class="btn btn-outline-info mb-1" id="price">
+          <%= room.cost %> Rs./day</button>
+        <h4 class="text-capitalize"><%=room.name%></h4>
+        <p style="font-size: 20px;"><%= room.description %></p>
+        <p>
+         
+        </p>
+        <% if(currentUser && room.author.id.equals(currentUser._id)){ %>
+        <a class="btn btn-warning" href="/rooms/<%= room._id %>/edit">Edit</a>
+        <form action="/rooms/<%= room._id %>?_method=DELETE" method="POST" class="delete-form">
+          <button class="btn btn-danger">Delete</button>
+        </form>
+        <% } %>
+      </div>
+    </div>
+    <div class="well">
+      <div class="text-right">
+        <a class="btn btn-success" href="/rooms/<%= room._id %>/comments/new">Add New Comment</a>
+      </div>
+      <hr>
+      <h5>Comments</h5>
+      <% room.comments.forEach(function(comment){ %>
+      <div class="row">
+        <div class="col-md-12">
+          <strong><%= comment.author.username %></strong>
+          <span class="pull-right"><%= moment(comment.createdAt).fromNow() %></span>
+          <div>
+           <%= comment.text %> 
+
+           <% if(currentUser && comment.author.id.equals(currentUser._id) ){ %>
+            <div class="pull-right">
+              <a href="/rooms/<%=room._id%>/comments/<%=comment._id%>/edit" class="btn btn-sm btn-warning">EDIT</a>
+              <form class="delete-form" action="/rooms/<%=room._id%>/comments/<%=comment._id%>?_method=DELETE" method="POST">
+                <button class="btn btn-sm btn-danger">DELETE</button>
+              </form>
+            </div>
+          <% } %>
+          <hr>
+        </div>
+      </div>
+    </div>
+    <% }) %>
+  </div>
+</div>
+</div>
+
+<%- include ('../partials/footer') %>
