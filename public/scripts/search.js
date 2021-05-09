@@ -25,7 +25,8 @@ $('#room-search').on('input', function() {
         <img src="${ room.image }" class="card-img-top" alt="...">
         <div class="card-body p-1">
           <h5 class="card-title">${ room.name }</h5>
-          <p class="card-text"><small class="text-muted"> ${room.cost} Rs./day</small></p>
+          <p class="card-text"> ${room.cost} Rs./day</p>
+          <span class="text-capitalize text-muted">${ room.location }</span>
           <p><a href="/rooms/${ room._id }" class="btn btn-primary">More Info</a></p>
         </div>
       </div>
